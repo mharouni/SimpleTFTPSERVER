@@ -6,31 +6,9 @@ import struct
 
 class TftpProcessor(object):
 
-    """
-    Implements logic for a TFTP server.
-    The input to this object is a received UDP packet,
-    the output is the packets to be written to the socket.
-    This class MUST NOT know anything about the existing sockets
-    its input and outputs are byte arrays ONLY.
-    Store the output packets in a buffer (some list) in this class
-    the function get_next_output_packet returns the first item in
-    the packets to be sent.
-    This class is also responsible for reading/writing files to the
-    hard disk.
-    Failing to comply with those requirements will invalidate
-    your submission.
-    Feel free to add more functions to this class as long as
-    those functions don't interact with sockets nor inputs from
-    user/sockets. For example, you can add functions that you
-    think they are "private" only. Private functions in Python
-    start with an "_", check the example below
-    """
 
     class TftpPacketType(enum.Enum):
-        """
-        Represents a TFTP packet type add the missing types here and
-        modify the existing values as necessary.
-        """
+
         RRQ = 1
         WRQ = 2
         DATA = 3
@@ -48,21 +26,13 @@ class TftpProcessor(object):
         noSuchUser = 7
 
     def __init__(self):
-        """
-        Add and initialize the *internal* fields you need.
-        Do NOT change the arguments passed to this function.
-        Here's an example of what you can do inside this function.
-        """
+
         self.packet_buffer = []
         self.fileBeingProcessed = ''
         pass
 
     def process_udp_packet(self, packet_data, packet_source):
-        """
-        Parse the input packet, execute your logic according to that packet.
-        packet data is a bytearray, packet source contains the address
-        information of the sender.
-        """
+
         print(f"Received a packet from {packet_source}")
         parsedPacket = self._parse_udp_packet(packet_data)
         out_packet = self._constructUdpPacket(parsedPacket)
@@ -295,13 +265,6 @@ class TftpProcessor(object):
 
 
 
-def check_file_name():
-    script_name = os.path.basename(__file__)
-    import re
-    matches = re.findall(r"(\d{4}_)+lab1\.(py|rar|zip)", script_name)
-    if not matches:
-        print(f"[WARN] File name is invalid [{script_name}]")
-    pass
 
 
 def setup_sockets(address):
@@ -328,12 +291,7 @@ def startServer(serverSocket):
 
 
 def get_arg(param_index, default=None):
-    """
-        Gets a command line argument by index (note: index starts from 1)
-        If the argument is not supplies, it tries to use a default value.
-        If a default value isn't supplied, an error message is printed
-        and terminates the program.
-    """
+
     try:
         return sys.argv[param_index]
     except IndexError as e:
@@ -346,13 +304,10 @@ def get_arg(param_index, default=None):
 
 
 def main():
-    """
-     Write your code above this function.
-    if you need the command line arguments
-    """
+
     print("*" * 50)
     print("[LOG] Printing command line arguments\n", ",".join(sys.argv))
-    check_file_name()
+
     print("*" * 50)
 
     # This argument is required.
